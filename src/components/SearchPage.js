@@ -11,18 +11,8 @@ class SearchPage extends React.Component {
 		this.setState(() => ({ city: input }));
 	};
 	onGoingChange = (e, props) => {
-		console.log(props.index);
-
-		console.log("state ", this.state.bars );
-		console.log("VALUE", e.target.value);
-
-		const going = e.target.value + 1;
-
 		const arr = this.state.bars[props.index];
 		arr.going+=1;
-
-		console.log("arr ", arr.going);
-
 		this.setState({arr});
 	};
 	search = (e) => {
