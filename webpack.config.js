@@ -53,7 +53,11 @@ module.exports = (env) => {
         "process.env.FIREBASE_DATABASE_URL": JSON.stringify(process.env.FIREBASE_DATABASE_URL),
         "process.env.FIREBASE_PROJECT_ID": JSON.stringify(process.env.FIREBASE_PROJECT_ID),
         "process.env.FIREBASE_STORAGE_BUCKET": JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
-        "process.env.FIREBASE_MESSAGING_SENDER_ID": JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID)
+        "process.env.FIREBASE_MESSAGING_SENDER_ID": JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID),
+        "process.env.YELP_ACCESS_TOKEN": JSON.stringify(process.env.YELP_ACCESS_TOKEN),
+        "process.env.YELP_API_KEY": JSON.stringify(process.env.YELP_API_KEY),
+        "process.env.YELP_CLIENT_ID": JSON.stringify(process.env.YELP_CLIENT_ID),
+        "process.env.YELP_API_SECRET": JSON.stringify(process.env.YELP_API_SECRET)
       })
     ],
     devtool: isProduction ? "source-map" : "inline-source-map",
@@ -61,6 +65,12 @@ module.exports = (env) => {
       contentBase: path.join(__dirname, "public"),
       historyApiFallback: true,
       publicPath: "/dist/"
+    },
+    node: {
+      console: true,
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty'
     }
   };
 };

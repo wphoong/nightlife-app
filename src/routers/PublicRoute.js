@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import SearchPage from "../components/SearchPage.js";
 import { Route, Redirect } from "react-router-dom";
 
 export const PublicRoute = ({
@@ -10,7 +11,7 @@ export const PublicRoute = ({
   <Route {...rest} component={(props) => (
     !isAuthenticated ? (
       <div>
-        <Component {...props} />
+        <SearchPage />
       </div>
       ) : 
     (
