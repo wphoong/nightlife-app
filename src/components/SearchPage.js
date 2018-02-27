@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./Header.js";
+import { connect } from "react-redux";
 
 class SearchPage extends React.Component {
 	state = {
@@ -12,8 +13,19 @@ class SearchPage extends React.Component {
 	};
 	onGoingChange = (e, props) => {
 		const arr = this.state.bars[props.index];
-		arr.going+=1;
-		this.setState({arr});
+		console.log("current bar ", arr);
+		console.log(this.props.auth.uid);
+
+		if (arr.going.includes(this.props.auth.uid)) {
+			const index = arr.going.findIndex((x) =>  x == this.props.auth.uid);
+
+			arr.going.splice(index, 1);
+		} else {
+			arr.going.push(this.props.auth.uid);
+		}
+
+		this.setState(() => ({ arr }));
+		console.log("new arr ", arr);
 	};
 	search = (e) => {
 		e.preventDefault();
@@ -28,7 +40,7 @@ class SearchPage extends React.Component {
 					const dataArr = data.businesses;
 
 					dataArr.forEach((bar) => {
-						bar["going"] = 0;
+						bar["going"] = [];
 						bar["index"] = dataArr.indexOf(bar);
 					});
 
@@ -41,7 +53,7 @@ class SearchPage extends React.Component {
 	render() {
 		return (
 			<div>
-				<Header />
+				<Header lastSearch={this.state.location} />
 				<div className="container-fluid">
 					<h1>Night Life Bar Finder</h1>
 					<form onSubmit={this.search}>
@@ -65,7 +77,7 @@ class SearchPage extends React.Component {
 											
 											<p>Phone: {display_phone}</p>
 											<p>Location: {location.display_address.join(" ")}</p>
-											<button value={going} index={index} onClick={( (e) => this.onGoingChange(e, {index} )) }><p>{going}</p></button>						
+											<button value={going} index={index} onClick={( (e) => this.onGoingChange(e, {index} )) }><p>{going.length}</p></button>						
 											<a href={url}>Visit Yelp Link</a>
 											
 										</div>
@@ -80,4 +92,8 @@ class SearchPage extends React.Component {
 	}
 };
 
-export default SearchPage;
+const mapStateToProps = (state, props) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(SearchPage);
