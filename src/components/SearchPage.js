@@ -40,9 +40,10 @@ class SearchPage extends React.Component {
 	};
 	search = (e) => {
 		e.preventDefault();
-		if (this.state.city != "") {
-			const city = this.state.city.split(' ').join('');
 
+		if (this.state.city != "") {
+
+			const city = this.state.city.split(' ').join('');
 
 			const url = "https://yelp-api-microservice.glitch.me/api/" + city;
 			console.log("requested url", url);
@@ -60,9 +61,35 @@ class SearchPage extends React.Component {
 					console.log(dataArr);
 					this.setState((prevState) => ({bars: [...prevState, ...dataArr] }));
 					this.props.startAddLastSearch(city);
-					this.props.startSetLastSearch();
+					
 				});
 		}
+	};
+	componentDidMount = () => {
+			console.log("mounted");
+			console.log(this.props.search);
+
+			if (this.state.lastSearch != "" && this.props.auth.uid) {
+				const city = this.state.lastSearch
+
+				const url = "https://yelp-api-microservice.glitch.me/api/" + city;
+				console.log("requested url", url);
+
+				fetch(url)
+					.then((resp) => resp.json())
+					.then((data) => {
+						let dataArr = data.businesses;
+
+						dataArr.forEach((bar) => {
+							bar["going"] = [];
+							bar["index"] = dataArr.indexOf(bar);
+						});
+
+						console.log(dataArr);
+
+						this.setState(() => ({ bars: dataArr}));
+					});
+			}
 	};
 	render() {
 		return (
@@ -112,7 +139,7 @@ const mapStateToProps = (state, props) => ({
   search: state.search
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   startLogin: () => dispatch(startLogin()),
   startAddLastSearch: (search) => dispatch(startAddLastSearch(search)),
   startSetLastSearch: () => dispatch(startSetLastSearch())

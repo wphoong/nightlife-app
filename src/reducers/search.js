@@ -5,8 +5,12 @@ const searchReducer = (state = searchReducerDefaultState, action) => {
 		case "SET_SEARCH":
 			return action.search;
 		case "SET_LAST_SEARCH":
+			return action.lastSearch;
+		case "SET_ADD_LAST_SEARCH":
 			return action.search;
 		default:
 			return state;
 	}
 };
+
+export default searchReducer;

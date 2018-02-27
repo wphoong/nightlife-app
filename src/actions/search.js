@@ -23,21 +23,21 @@ export const startSetSearch = (search) => {
 };
 
 export const setAddLastSearch = (search) => ({
-	type: "SET_LAST_SEARCH",
+	type: "SET_ADD_LAST_SEARCH",
 	search
 });
 
 export const startAddLastSearch = (search) => {
 	return (dispatch) => {
 		return database.ref('lastSearch').set(search).then(() => {
-			dispatch(setLastSearch(search));
+			dispatch(setAddLastSearch(search));
 		});
 	};
 };
 
-export const setLastSearch = (search) => ({
+export const setLastSearch = (lastSearch) => ({
 	type: "SET_LAST_SEARCH",
-	search
+	lastSearch
 });
 
 export const startSetLastSearch = () => {

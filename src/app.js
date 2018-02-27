@@ -9,6 +9,8 @@ import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 import { firebase } from './firebase/firebase.js';
+import { startSetLastSearch } from "./actions/search.js";
+
 // import { setTextFilter, sortByAmount, sortByDate, setStartDate, setEndDate } from "./actions/filters.js";
 
 console.log('App.js is running');
@@ -35,10 +37,12 @@ ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch(login(user.uid));
-    renderApp();
-    if (history.location.pathname === '/') {
-      history.push('/');
-    }
+    store.dispatch(startSetLastSearch()).then(() => {
+      renderApp();
+      if (history.location.pathname === '/') {
+        history.push('/');
+      }
+    });
   } else {
     store.dispatch(logout());
     renderApp();
